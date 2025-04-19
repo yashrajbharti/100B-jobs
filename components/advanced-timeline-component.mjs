@@ -46,7 +46,7 @@ export class AdvancedTimeline extends HTMLElement {
                 position: relative;
                 & > article {
                 position: relative;
-                background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 20%, transparent 80%);
+                background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 15%, transparent 85%);
                 padding: 30px;
                 margin-block: 40px;
                 border-radius: 24px;

@@ -42,7 +42,7 @@ export class CandidateDetails extends HTMLElement {
             display: block;
             box-sizing: border-box;
             margin-inline: auto;
-            background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 20%, transparent 80%);
+            background-color: color-mix(in srgb, var(--md-sys-color-primary-container) 15%, transparent 85%);
             padding: 40px;
             margin-block: 100px;
             border-radius: 20px;
