@@ -3,6 +3,7 @@ body {
     max-inline-size: 1280px;
     margin-inline: auto;
     font-family: "Roboto", sans-serif;
+    position: relative;
 }
 
 header {
@@ -11,6 +12,8 @@ header {
     inset-inline-start: 0;
     inset-block-start: 0;
     padding: 20px;
+    box-sizing: border-box;
+    overflow-y: hidden;
 }
 
 main {

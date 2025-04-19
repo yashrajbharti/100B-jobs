@@ -12,18 +12,10 @@ export const loadProfileData = async (url = "./data/data.json") => {
     item.index = index;
   });
 
-  data.sort((a, b) => a.score - b.score);
-  data.forEach((item, index) => {
-    if (index < 5) {
-      item.top = `#${index + 1}`;
-    }
-  });
-
   const profileId = getQueryFromPage("id");
 
   const profileData = data[profileId];
 
-  console.warn(profileData);
   const { name, email, phone, location } = profileData;
 
   document.title = `${name || "Candidate"}  | 100B Jobs 🚀`;
