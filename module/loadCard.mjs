@@ -9,6 +9,9 @@ export const loadCard = (cards) => {
     cardElement.setAttribute("link", `/candidate.html?id=${card.index}`);
     fragment.appendChild(cardElement);
   }
-  document.querySelector(".candidate-list").innerHTML = "";
-  document.querySelector(".candidate-list").appendChild(fragment);
+
+  const candidateWrapper = document.querySelector(".candidate-list");
+  candidateWrapper.innerHTML = "";
+  candidateWrapper.appendChild(fragment);
+  candidateWrapper.classList.remove("loading");
 };
