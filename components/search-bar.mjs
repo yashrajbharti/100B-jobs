@@ -6,7 +6,7 @@ export class SearchBar extends HTMLElement {
     this.shadowRoot.innerHTML = `
         <style>
           .search-wrapper {
-                position: relative;
+                    position: relative;
                     inline-size: 90%;
                     max-inline-size: 900px;
                     margin-inline:auto;

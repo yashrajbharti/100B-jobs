@@ -39,6 +39,9 @@
     --md-sys-color-on-error: light-dark(#ffffff, #690005);
     --md-sys-color-error-container: light-dark(#ffdad6, #93000a);
     --md-sys-color-on-error-container: light-dark(#410002, #ffdad6);
+    --md-sys-box-shadow-dark: -6px 5px 6px rgba(3, 7, 18, 0.04), -24px 18px 24px rgba(3, 7, 18, 0.08);
+    --md-sys-box-shadow-light: -6px 5px 6px rgba(255, 255, 255, 0.04), -24px 18px 24px rgba(255, 255, 255, 0.08);
+    --md-sys-box-shadow: light-dark(var(--md-sys-box-shadow-light), var(--md-sys-box-shadow-dark));
 }
 
 
