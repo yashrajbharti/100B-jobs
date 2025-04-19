@@ -63,7 +63,7 @@ export class CandidateCard extends HTMLElement {
             )
             .join("")}
         </md-chip-set>
-        <a href="${link}" target="_blank">Visit ${name}'s profile</a>
+        <a href="${link}">Visit ${name}'s profile</a>
         <md-ripple></md-ripple>
       </article>
     `;

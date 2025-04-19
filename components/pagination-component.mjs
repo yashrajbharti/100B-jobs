@@ -154,6 +154,8 @@ export class PaginationComponent extends HTMLElement {
       "next"
     );
 
+    const isNavigationPagesCountZero = buttons.length === 2;
+    if (isNavigationPagesCountZero) return;
     buttons.forEach((btn) => container.appendChild(btn));
   }
 }

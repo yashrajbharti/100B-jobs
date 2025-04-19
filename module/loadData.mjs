@@ -1,4 +1,4 @@
-import { addQueryToPage, getQueryFromPage } from "../utils/history.mjs";
+import { getQueryFromPage } from "../utils/history.mjs";
 import { loadCard } from "./loadCard.mjs";
 import { updateCount } from "../utils/count.mjs";
 import { loadPagination } from "./loadPagination.mjs";

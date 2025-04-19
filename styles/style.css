@@ -108,3 +108,7 @@ body {
         translate: -50% 0;
     }
 }
+
+.container:has(md-filter-chip[selected])~.candidate-list {
+    opacity: 0.7;
+}
