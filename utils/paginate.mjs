@@ -7,7 +7,7 @@ export const navigatePagination = () => {
   pagination.addEventListener("page-change", (e) => {
     addQueryToPage("offset", e.detail.offset);
     addQueryToPage("limit", e.detail.limit);
-
+    document.querySelector(".container").scrollIntoView({ behavior: "smooth" });
     loadData();
   });
 };

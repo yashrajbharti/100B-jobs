@@ -15,7 +15,7 @@ export class PaginationComponent extends HTMLElement {
           margin-block-end: 50px;
         & > button {
               padding: 10px 15px;
-              margin: 0 5px;
+              margin: 5px 5px;
               border: none;
               background: var(--md-sys-color-background);
               color: var(--md-sys-color-on-surface);
