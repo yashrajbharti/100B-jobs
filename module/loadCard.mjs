@@ -7,6 +7,7 @@ export const loadCard = (cards) => {
     cardElement.setAttribute("email", card.email);
     cardElement.setAttribute("skills", card.skills);
     cardElement.setAttribute("link", `/candidate.html?id=${card.index}`);
+    if (card && card.top) cardElement.setAttribute("data-top", card.top);
     fragment.appendChild(cardElement);
   }
 

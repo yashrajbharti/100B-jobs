@@ -30,6 +30,11 @@ export const loadData = async (url = "./data/data.json") => {
   }
   if (filter === "Top Candidates") {
     data.sort((a, b) => a.score - b.score);
+    data.forEach((item, index) => {
+      if (index < 5) {
+        item.top = `#${index + 1}`;
+      }
+    });
   }
   const end = Math.min(data.length, parseInt(offset) + parseInt(limit));
 
