@@ -9,6 +9,7 @@ header {
     position: absolute;
     inline-size: 100%;
     inset-inline-start: 0;
+    inset-block-start: 0;
     padding: 20px;
 }
 
