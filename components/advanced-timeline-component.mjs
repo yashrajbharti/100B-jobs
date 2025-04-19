@@ -16,8 +16,9 @@ export class AdvancedTimeline extends HTMLElement {
     this.render();
   }
   render() {
-    const experiences = JSON.parse(this.getAttribute("timeline") || "[]");
-    const title = this.getAttribute("title");
+    const experiences = JSON.parse(this.getAttribute("timeline") || "{}");
+    const { degrees } = experiences;
+    const title = this.getAttribute("title") || [];
 
     this.shadowRoot.innerHTML = `
           <style>
@@ -36,7 +37,7 @@ export class AdvancedTimeline extends HTMLElement {
             .timeline {
               padding-inline: 40px;
               line-height: 5;
-              border-inline-start: 2px solid var(--md-sys-color-on-primary);
+              border-inline-start: 2px solid var(--md-sys-color-primary-container);
     
               & > .info {
                 list-style: none;
@@ -57,17 +58,21 @@ export class AdvancedTimeline extends HTMLElement {
             }
           </style>
           <article>
-            <h2>${title}</h2>
+            <h2>${title} - ${experiences.highest_level}</h2>
             <ul class="timeline">
-              ${experiences
-                .map(
-                  (exp) => `
+              ${
+                degrees
+                  ? degrees
+                      .map(
+                        (degree) => `
                 <li class="info">
-                
+                ${degree}
                 </li>
               `
-                )
-                .join("")}
+                      )
+                      .join("")
+                  : "No Education History"
+              }
             </ul>
           </article>
         `;

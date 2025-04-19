@@ -1,5 +1,6 @@
 import { getQueryFromPage } from "../utils/history.mjs";
 import { loadTimeline } from "./loadTimeline.mjs";
+import { loadAdvancedTimeline } from "./loadAdvancedTimeline.mjs";
 import { loadUserProfile } from "./loadUserProfile.mjs";
 
 export const loadProfileData = async (url = "./data/data.json") => {
@@ -13,7 +14,7 @@ export const loadProfileData = async (url = "./data/data.json") => {
 
   const profileData = data[profileId];
 
-  console.warn(profileData);
+  console.warn(profileData.education.degrees);
   const { name, email, phone, location } = profileData;
 
   document.title = `${name || "Candidate"}  | 100B Jobs 🚀`;
@@ -23,4 +24,8 @@ export const loadProfileData = async (url = "./data/data.json") => {
   const { work_experiences } = profileData;
 
   loadTimeline(work_experiences);
+
+  const { education } = profileData;
+
+  loadAdvancedTimeline(education);
 };

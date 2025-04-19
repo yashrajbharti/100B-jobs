@@ -29,19 +29,22 @@ export class Timeline extends HTMLElement {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: start;
+            align-items: center;
             gap: 0 25px;
           }
   
           .timeline {
             padding-inline: 40px;
-            border-inline-start: 2px solid var(--md-sys-color-on-primary);
-            line-height: 1.5;
+            border-inline-start: 2px solid var(--md-sys-color-primary-container);
+            line-height: 1.2;
   
             & > .info {
               list-style: none;
               position: relative;
               margin-block: 40px;
+              &> p{
+                color: var(--md-sys-color-on-surface-variant)
+              }
             }
   
             & > .info::after {
@@ -65,9 +68,10 @@ export class Timeline extends HTMLElement {
                 ? experiences
                     .map(
                       (exp) => `
-              <li class="info">${exp.roleName ?? "N/A"} (${
-                        exp.company ?? "N/A"
-                      })</li>
+              <li class="info">
+                      <h3>${exp.company ?? "N/A"}</h3>
+                      <p>${exp.roleName ?? "N/A"}</p>
+              </li>
             `
                     )
                     .join("")
