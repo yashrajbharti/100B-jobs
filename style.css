@@ -77,3 +77,34 @@ body {
     align-items: center;
     justify-content: space-between;
 }
+
+
+.candidate-list {
+    position: relative;
+
+    &:empty {
+        position: relative;
+        background-image: url(../assets/Space_empty_state.webp);
+        block-size: 350px;
+        margin-block-start: 50px;
+        margin-block-end: 150px;
+        inline-size: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        border-radius: 20px;
+    }
+
+    &:empty::after {
+        content: "We searched far and wide but couldn't find what you're looking for!";
+        position: absolute;
+        color: var(--md-sys-color-on-surface);
+        inset-inline-start: 50%;
+        inset-block-end: -80px;
+        inline-size: 100%;
+        max-inline-size: 400px;
+        font-size: 20px;
+        text-align: center;
+        translate: -50% 0;
+    }
+}
