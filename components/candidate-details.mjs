@@ -56,10 +56,8 @@ export class CandidateDetails extends HTMLElement {
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
-                font-size: 1.5rem;
-
                 &>h2 {
-                    font-size: 1.8rem;
+                    font-size: 1.9rem;
                     color: var(--md-sys-color-primary);
                 }
 
@@ -81,7 +79,7 @@ export class CandidateDetails extends HTMLElement {
                     }
 
                     &>h3 {
-                        font-size: 1.3rem;
+                        font-size: 1.4rem;
                     }
                 }
             }

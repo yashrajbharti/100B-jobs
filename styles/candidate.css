@@ -1,9 +1,9 @@
 body {
     background-color: var(--md-sys-color-background, #121415);
-    max-inline-size: 1280px;
     margin-inline: auto;
     font-family: "Roboto", sans-serif;
     position: relative;
+    margin: 0;
 }
 
 header {
@@ -13,7 +13,6 @@ header {
     inset-block-start: 0;
     padding: 20px;
     box-sizing: border-box;
-    overflow-y: hidden;
 }
 
 main {
