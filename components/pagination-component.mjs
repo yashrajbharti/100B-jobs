@@ -25,7 +25,7 @@ export class PaginationComponent extends HTMLElement {
               font-size: 14px;
            
               &:hover:not(:disabled) {
-                background: var(--md-sys-color-primary-container);
+                background: var(--md-sys-color-inverse-primary);
               }
               &:disabled {
                 cursor: default;
@@ -33,8 +33,7 @@ export class PaginationComponent extends HTMLElement {
               }
 
               &.active {
-                background: var(--md-sys-color-primary-container);
-                color: var(--md-sys-color-primary);
+                background: var(--md-sys-color-inverse-primary);
                 border-color: var(--md-sys-color-primary);
                 font-weight: bold;
               }

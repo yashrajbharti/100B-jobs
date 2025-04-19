@@ -1,4 +1,4 @@
-import { getQueryFromPage } from "../utils/history.mjs";
+import { addQueryToPage, getQueryFromPage } from "../utils/history.mjs";
 import { loadCard } from "./loadCard.mjs";
 import { updateCount } from "../utils/count.mjs";
 import { loadPagination } from "./loadPagination.mjs";
@@ -10,8 +10,8 @@ export const loadData = async (url = "../data/data.json") => {
   const search = getQueryFromPage("search") ?? "";
   const filter = getQueryFromPage("filter") ?? "";
 
-  const offset = getQueryFromPage("offset") ?? 0;
-  const limit = getQueryFromPage("limit") ?? 50;
+  let offset = getQueryFromPage("offset") ?? 0;
+  let limit = getQueryFromPage("limit") ?? 50;
 
   let data = await res.json();
   data.forEach((item, index) => {
