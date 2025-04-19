@@ -12,6 +12,7 @@ export class CandidateCard extends HTMLElement {
       .split(",")
       .map((skill) => skill.trim())
       .filter(Boolean);
+    const top = this.getAttribute("data-top") || "";
 
     const template = document.createElement("template");
     template.innerHTML = `
@@ -51,9 +52,19 @@ export class CandidateCard extends HTMLElement {
           padding-block-start: 10px;
           padding-block-end: 20px;
         }
+        &[data-top]::after {
+            position: absolute;
+            content: attr(data-top) / "Top ranked candidate";
+            inset-inline-end: 25px;
+            inset-block-start: 25px;
+            font-size: 62px;
+            font-weight: bold;
+            opacity: 0.2;
+            color: var(--md-sys-color-primary);
+        }
       }
       </style>
-      <article>
+      <article data-top="${top}">
         <h2>${name}</h2>
         <p>${email}</p>
         <md-chip-set class="skill">
