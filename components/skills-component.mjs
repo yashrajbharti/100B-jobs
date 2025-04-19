@@ -30,7 +30,7 @@ export class SkillsComponent extends HTMLElement {
             text-align: center;
           }
         </style>
-        <h2>Skills</h2>
+        <h2>${skillArray.length ? "Skills" : ""}</h2>
         <md-chip-set>
           ${skillArray
             .map(

@@ -44,6 +44,9 @@
     --md-sys-box-shadow: light-dark(var(--md-sys-box-shadow-light), var(--md-sys-box-shadow-dark));
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
 @font-face {
     font-family: 'Roboto';
