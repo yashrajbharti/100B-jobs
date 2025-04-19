@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Candidates | 100B Jobs 🚀</title>
+    <meta name="description" content="Choosing the best candidates with a powerful AI">
+    <link rel="stylesheet" href="style.css">
+    <script type="importmap">
+        {
+              "imports": {
+                "@material/web/": "https://esm.run/@material/web/"
+              }
+            }
+          </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {
+            styles as typescaleStyles
+        } from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+</head>
+
+<body>
+    <main>
+        <h1>100B Jobs <span class="rocket">🚀</span></h1>
+        <search-bar></search-bar>
+        <div class="container">
+            <md-chip-set>
+                <md-filter-chip label="Top Candidates"></md-filter-chip>
+            </md-chip-set>
+            <output class="count">Showing 0 results</output>
+        </div>
+        <section class="candidate-list"></section>
+        <section class="pagination"></section>
+    </main>
+    <script src="./script.js" type="module"></script>
+</body>
+
+</html>
