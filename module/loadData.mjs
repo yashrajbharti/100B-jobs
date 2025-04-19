@@ -40,5 +40,6 @@ export const loadData = async (url = "./data/data.json") => {
 
   updateCount(data.length, offset, end);
   loadPagination(offset, limit, data.length);
+
   loadCard(data.slice(offset, end));
 };
