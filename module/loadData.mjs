@@ -30,6 +30,6 @@ export const loadData = async (url = "../data/data.json") => {
   const end = Math.min(data.length, parseInt(offset) + parseInt(limit));
 
   updateCount(data.length, offset, end);
-  loadPagination(offset % limit, limit, data.length);
+  loadPagination(offset, limit, data.length);
   loadCard(data.slice(offset, end));
 };
