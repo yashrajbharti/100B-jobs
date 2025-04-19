@@ -3,6 +3,7 @@ import { loadTimeline } from "./loadTimeline.mjs";
 import { loadAdvancedTimeline } from "./loadAdvancedTimeline.mjs";
 import { loadUserProfile } from "./loadUserProfile.mjs";
 import { loadCandidateDetails } from "./loadCandidateDetails.mjs";
+import { loadSkillsData } from "./loadSkills.mjs";
 
 export const loadProfileData = async (url = "./data/data.json") => {
   const res = await fetch(url);
@@ -45,4 +46,8 @@ export const loadProfileData = async (url = "./data/data.json") => {
     score,
     top
   );
+
+  const { skills } = profileData;
+
+  loadSkillsData(skills);
 };
