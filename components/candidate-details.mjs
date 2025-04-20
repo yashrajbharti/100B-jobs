@@ -96,7 +96,7 @@ export class CandidateDetails extends HTMLElement {
         </style>
         <article>
             <div class="score">
-              <md-circular-progress value="${score}"></md-circular-progress>
+              <md-circular-progress value="${score}" aria-label="Percent Score of Candidate"></md-circular-progress>
               <h2>${scorePercent}% Score ${
       topDisplay ? `(${topDisplay} candidate)` : ""
     }</h2>

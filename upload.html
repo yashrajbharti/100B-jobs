@@ -31,13 +31,23 @@
             <label for="file">Upload Candidate List</label>
             <input type="file" name="file" id="file" accept=".json">
 
-            <md-outlined-text-field type="textarea" label="Job Description" rows="3">
+            <md-outlined-text-field type="textarea" label="Job Description" rows="6">
             </md-outlined-text-field>
-            <md-filled-button>Complete</md-filled-button>
+            <md-filled-button>Upload and Evaluate Candidates using AI</md-filled-button>
         </form>
+        <p>
+            <gemini-interaction></gemini-interaction>
+            <span>
+                The above process maybe time consuming but ensures all the data is scored and uploaded. It uses Gemini
+                Nano
+                API to score candidates out of 7 and a custom logic to score out of 3, thus the final score is out of 10
+                and
+                top 5 candidates can be filtered from the home page.
+            </span>
+        </p>
     </main>
 
-
+    <script src="./components/gemini-interaction.mjs" type="module"></script>
 </body>
 
 </html>
