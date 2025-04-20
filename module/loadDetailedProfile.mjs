@@ -5,17 +5,29 @@ import { loadUserProfile } from "./loadUserProfile.mjs";
 import { loadCandidateDetails } from "./loadCandidateDetails.mjs";
 import { loadSkillsData } from "./loadSkills.mjs";
 
-export const loadProfileData = async (url = "./data/data.json") => {
-  const res = await fetch(url);
-  let data = await res.json();
-  data.forEach((item, index) => {
-    item.score = Math.random() * 10;
-    item.index = index;
-  });
+export const loadProfileData = async (
+  url = "http://localhost:3001/candidates"
+) => {
+  // Legacy
+  // const res = await fetch(url);
+  // let data = await res.json();
+  // data.forEach((item, index) => {
+  //   item.score = Math.random() * 10;
+  //   item.index = index;
+  // });
 
   const profileId = getQueryFromPage("id");
 
-  const profileData = data[profileId];
+  if (!profileId) {
+    throw new Error("No candidate ID found in URL");
+  }
+
+  const res = await fetch(`${url}/${profileId}`);
+  if (!res.ok) {
+    throw new Error("Candidate not found");
+  }
+
+  const profileData = await res.json();
 
   const { name, email, phone, location } = profileData;
 

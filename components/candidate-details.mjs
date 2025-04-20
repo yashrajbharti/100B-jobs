@@ -30,7 +30,7 @@ export class CandidateDetails extends HTMLElement {
 
     const score = parseFloat(this.score / 10 || "0");
     const scorePercent = Math.round(score * 100);
-    const topDisplay = this.top ? `(${this.top})` : "";
+    const topDisplay = this.top ? `${this.top}` : "";
 
     const availability = this.work_availability?.split(",") ?? [];
 
