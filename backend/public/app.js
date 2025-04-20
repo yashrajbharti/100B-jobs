@@ -6,6 +6,7 @@ const jobDescriptionTextField = document.querySelector(
 const dialog = document.querySelector("md-dialog");
 const dialogTitle = document.querySelector('div[slot="headline"]');
 const dialogMessage = document.querySelector('form[slot="content"]');
+const button = document.querySelector("md-filled-button");
 
 const showDialog = (title, message) => {
   dialogTitle.textContent = title;
@@ -33,17 +34,15 @@ Only return the number score (decimal between 0 and 7). No explanation.
     },
     body: JSON.stringify({
       model: "llama3.2",
-      prompt,
+      messages: [{ role: "user", content: prompt }],
       stream: false,
     }),
   });
 
-  console.log(prompt);
   const result = await response.json();
-  const raw = result.response || "";
-
+  const raw = result?.message?.content || "";
+  console.log(result);
   const score = parseFloat(raw.match(/[\d.]+/g)?.[0]);
-  console.warn(result);
   return isNaN(score) ? Math.random() * 7 : Math.min(score, 7);
 };
 
@@ -55,25 +54,70 @@ const getScore = async (candidate, jd) => {
   return +(skillsScore + xpScore).toFixed(2);
 };
 
-const scoreCandidates = async (candidates, jobDescription) => {
-  const scored = await Promise.all(
-    candidates.map(async (candidate, index) => {
-      const score = await getScore(candidate, jobDescription);
-      return { ...candidate, score, index };
-    })
-  );
+const chunkArray = (arr, size) => {
+  const chunks = [];
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+  return chunks;
+};
 
-  const top5 = [...scored].sort((a, b) => b.score - a.score).slice(0, 5);
-  top5.forEach((candidate, i) => {
-    candidate.top = `#${i + 1}`;
+const processInBatches = async (candidates, jobDescription, batchSize = 50) => {
+  const allScored = [];
+  const chunks = chunkArray(candidates, batchSize);
+
+  for (let batchIndex = 0; batchIndex < chunks.length; batchIndex++) {
+    const batch = chunks[batchIndex];
+
+    const scoredBatch = await Promise.all(
+      batch.map(async (candidate, i) => {
+        const index = batchIndex * batchSize + i;
+        const score = await getScore(candidate, jobDescription);
+        return { ...candidate, score, index };
+      })
+    );
+
+    allScored.push(...scoredBatch);
+
+    const response = await fetch("/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(scoredBatch),
+    });
+
+    if (!response.ok) {
+      console.warn(`Failed to upload batch ${batchIndex + 1}`);
+    }
+
+    showDialog(
+      "Uploading...",
+      `Uploaded batch ${batchIndex + 1} of ${chunks.length}`
+    );
+  }
+
+  return allScored;
+};
+
+const sendTop5 = async (scoredCandidates) => {
+  const top5 = [...scoredCandidates]
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5)
+    .map((candidate, i) => ({ ...candidate, top: `#${i + 1}` }));
+  const response = await fetch("/upload/top5", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(top5),
   });
 
-  return scored;
+  return response.ok;
 };
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  button.disabled = true;
+  await fetch("/candidates", { method: "DELETE" });
 
+  button.textContent = "Processing Candidate Scores...";
   const file = fileInput.files[0];
   const jobDescription = jobDescriptionTextField.value;
 
@@ -95,20 +139,14 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  const finalData = await scoreCandidates(candidates, jobDescription);
+  const allScored = await processInBatches(candidates, jobDescription);
+  const topUploaded = await sendTop5(allScored);
 
-  const response = await fetch("/upload", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(finalData),
-  });
-
-  if (response.ok) {
-    showDialog(
-      "Upload Successful",
-      "Candidates scored and uploaded successfully!"
-    );
+  if (topUploaded) {
+    showDialog("Upload Complete", "All candidates scored and top 5 submitted.");
   } else {
-    showDialog("Upload Failed", "Something went wrong while uploading.");
+    showDialog("Upload Partial", "Scoring done, but top 5 failed to save.");
   }
+  button.disabled = false;
+  button.textContent = "Upload and Evaluate Candidates using AI";
 });

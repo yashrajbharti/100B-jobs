@@ -16,12 +16,38 @@ app.use(cors());
 app.use(bodyParser.json({ limit: "10mb" }));
 
 app.post("/upload", (req, res) => {
-  const data = req.body;
+  const newBatch = req.body;
   const filePath = path.join(__dirname, "candidates.json");
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-  res
-    .status(200)
-    .json({ message: "Uploaded successfully!", count: data.length });
+
+  let existingData = [];
+
+  if (fs.existsSync(filePath)) {
+    try {
+      const raw = fs.readFileSync(filePath, "utf-8");
+      existingData = JSON.parse(raw);
+    } catch (e) {
+      console.error("Failed to parse existing candidate data:", e.message);
+      return res
+        .status(500)
+        .json({ message: "Server error reading existing data." });
+    }
+  }
+
+  const incomingIndexes = new Set(newBatch.map((c) => Number(c.index)));
+
+  const dedupedExisting = existingData.filter(
+    (c) => !incomingIndexes.has(Number(c.index))
+  );
+
+  const updated = [...dedupedExisting, ...newBatch];
+
+  fs.writeFileSync(filePath, JSON.stringify(updated, null, 2));
+
+  res.status(200).json({
+    message: "Batch uploaded with deduplication.",
+    new: newBatch.length,
+    total: updated.length,
+  });
 });
 
 const loadCandidates = () => {
@@ -79,6 +105,41 @@ app.get("/candidates/:id", (req, res) => {
     return res.status(404).json({ message: "Candidate not found" });
 
   res.json(candidate);
+});
+
+app.patch("/upload/top5", (req, res) => {
+  const newTop5 = req.body;
+
+  const filePath = path.join(__dirname, "candidates.json");
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).json({ message: "No existing candidate data." });
+  }
+  let existing = JSON.parse(fs.readFileSync(filePath, "utf-8"));
+  newTop5.forEach((topCandidate) => {
+    const match = existing.find((c) => c.index === topCandidate.index);
+    if (match) {
+      match.top = topCandidate.top;
+    }
+  });
+
+  fs.writeFileSync(filePath, JSON.stringify(existing, null, 2));
+  res.status(200).json({ message: "Top 5 updated successfully." });
+});
+
+app.delete("/candidates", (req, res) => {
+  const filePath = path.join(__dirname, "candidates.json");
+
+  if (fs.existsSync(filePath)) {
+    try {
+      fs.unlinkSync(filePath);
+      res.status(200).json({ message: "Candidate data cleared." });
+    } catch (e) {
+      console.error("Failed to delete candidate file:", e.message);
+      res.status(500).json({ message: "Failed to delete candidate file." });
+    }
+  } else {
+    res.status(404).json({ message: "No candidate data to delete." });
+  }
 });
 
 app.get("/", (req, res) => {
