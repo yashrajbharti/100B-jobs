@@ -122,7 +122,7 @@ export class CandidateDetails extends HTMLElement {
                   <p>Submission Date</p>
                 </div>
             </div>
-            <md-filled-icon-button>
+            <md-filled-icon-button aria-label="Candidate has submitted application">
               <md-icon>check</md-icon>
             </md-filled-icon-button>
             <md-ripple></md-ripple>

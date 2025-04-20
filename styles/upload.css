@@ -1,0 +1,55 @@
+body {
+    background-color: var(--md-sys-color-background);
+    margin-inline: auto;
+    font-family: "Roboto", sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    padding-block-start: 70px;
+}
+
+
+input[type="file"] {
+    inline-size: max-content;
+    margin-block: 20px;
+    margin-inline: auto;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: currentColor;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 30px;
+    background-color: var(--md-sys-color-secondary-container);
+    transition: color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button {
+    background-color: var(--md-sys-color-secondary-container);
+    color: currentColor;
+    border: none;
+}
+
+input[type="file"]:hover {
+    background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, transparent 10%);
+
+    &::file-selector-button {
+        background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, transparent 10%)
+    }
+}
+
+md-outlined-text-field {
+    resize: vertical;
+    display: block;
+    padding: 20px;
+    inline-size: 90%;
+    max-inline-size: 900px;
+    margin-inline: auto;
+}

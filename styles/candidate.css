@@ -1,5 +1,5 @@
 body {
-    background-color: var(--md-sys-color-background, #121415);
+    background-color: var(--md-sys-color-background);
     margin-inline: auto;
     font-family: "Roboto", sans-serif;
     position: relative;

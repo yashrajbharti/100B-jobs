@@ -70,13 +70,13 @@ export class UserProfile extends HTMLElement {
                       }"></md-assist-chip>
                     </md-chip-set>
                     <div>
-                      <md-icon-button>
+                      <md-icon-button aria-label="mail">
                         <md-icon>mail</md-icon>
                       </md-icon-button>
                       <a href="mailto:${email}">${email || "N/A"}</a>
                     </div>
                     <div>
-                      <md-icon-button>
+                      <md-icon-button aria-label="phone">
                         <md-icon>phone</md-icon>
                       </md-icon-button>
                       <a href="tel:${phone}">${phone || "N/A"}</a>

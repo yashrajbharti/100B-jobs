@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data | 100B Jobs 🚀</title>
+    <meta name="description" content="Choosing the best candidates with a powerful AI">
+    <link rel="stylesheet" href="./styles/material.css">
+    <link rel="stylesheet" href="./styles/upload.css">
+    <link rel="stylesheet" href="./styles/vt-index.css">
+    <script type="importmap">
+            {
+                  "imports": {
+                    "@material/web/": "https://esm.run/@material/web/"
+                  }
+                }
+              </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import {
+            styles as typescaleStyles
+        } from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+</head>
+
+<body>
+    <main>
+        <form>
+            <label for="file">Upload Candidate List</label>
+            <input type="file" name="file" id="file" accept=".json">
+
+            <md-outlined-text-field type="textarea" label="Job Description" rows="3">
+            </md-outlined-text-field>
+            <md-filled-button>Complete</md-filled-button>
+        </form>
+    </main>
+
+
+</body>
+
+</html>

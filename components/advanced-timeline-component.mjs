@@ -90,7 +90,7 @@ export class AdvancedTimeline extends HTMLElement {
                               : ""
                           }
                           <div class="time">
-                              <md-icon-button>
+                              <md-icon-button aria-label="date range">
                                   <md-icon>date_range</md-icon>
                               </md-icon-button>
                               <p>${education.startDate || "N/A"} - ${
@@ -98,20 +98,20 @@ export class AdvancedTimeline extends HTMLElement {
                         }</p>
                           </div>
                           <div class="grades">
-                              <md-icon-button>
+                              <md-icon-button aria-label="Grading">
                                   <md-icon>star</md-icon>
                               </md-icon-button>
                               <p>${education.gpa}</p>
                           </div>
                           <div class="school">
-                              <md-icon-button>
+                              <md-icon-button aria-label="School">
                                   <md-icon>school</md-icon>
                               </md-icon-button>
                               <div><p>${education.originalSchool}</p>
                               <p>(${education.school})</p></div>
                           </div>
                           <div class="subject">
-                              <md-icon-button>
+                              <md-icon-button aria-label="Subject">
                                   <md-icon>book_2</md-icon>
                               </md-icon-button>
                               <p>${education.subject || "N/A"}</p>
