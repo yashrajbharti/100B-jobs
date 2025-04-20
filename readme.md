@@ -8,6 +8,8 @@
 
 This app is designed to simulate a real-world hiring decision system after a $100M seed round, where the goal is to filter, evaluate, and select the top 5 candidates using both custom logic and AI-driven scoring (currently under development).
 
+![Low fi](./design/Low%20Fidelity.png)
+
 ## Stack
 
 - **Frontend:** HTML, CSS5, and JavaScript using Web Components
