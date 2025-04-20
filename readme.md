@@ -1,152 +1,90 @@
-### User
+# 100B Jobs
 
-100B Jobs  
-**The situation**  
-You just raised a $100M seed round for your amazing new startup, and it’s time to lock in. Right now, you’re only a team of one.
+**Author:** Yash Raj
 
-You need to start hiring the best people immediately if you want to have a chance to win the market and make your investors happy.
+## Overview
 
-Luckily, hundreds of people have already applied to a random LinkedIn job post you made. The data isn’t particularly good, but regardless they are eagerly waiting to hear back from you.
+100B Jobs is a full-stack hiring platform built from scratch to help founders evaluate and hire top candidates from a large pool of applicants. The project was developed as part of the Mercor "100B Jobs" assignment challenge.
 
-**Your task**  
-Create a full-stack app to help you figure out who to hire. Other than the form submissions data above, you’ll be starting completely from scratch.  
-It’s up to you to decide what features and functionalities to build, as well as how you use the data. Ultimately, you will demo using your app to choose a diverse team of 5 people to hire and communicate why they were chosen.
+This app is designed to simulate a real-world hiring decision system after a $100M seed round, where the goal is to filter, evaluate, and select the top 5 candidates using both custom logic and AI-driven scoring (currently under development).
 
-You have 1hr 45m to ideate, implement, and demo your app. Good luck!
+## Stack
 
-**Important:**  
+- **Frontend:** HTML, CSS5, and JavaScript using Web Components
+- **Backend:** Node.js with Express
+- **Persistence:** Local JSON file for structured data storage (can scale to SQL)
+- **AI Scoring:** Planned integration with Groq or Gemini
 
-- Please record a 5-minute demo and email it to <danielhe@mercor.com>  
-- Share your entire screen in the interview  
+## Features
 
-**What we’re looking for**  
-We expect a reasonable implementation and a baseline level of functionality. However, feel free to prioritize one or multiple of the criteria below to best demonstrate your strengths. The following are listed in no particular order:
+### Frontend
 
-- **Which 5 people did you hire?**  
-- **Why were these candidates chosen?**  
-- **How intuitive is your app UX?**
+- Fully modular architecture using Web Components
+- Search and filter functionality with query string syncing
+- Pagination using limit and offset (default: 50)
+- Dynamic SEO titles based on page state
+- Material UI Web Components for consistent look and feel
+- Skeleton loading and empty search states for enhanced UX
+- Individual candidate profile pages (via `?id=...` query param)
+- CSS5 dynamics - view transitions, OS based themes - @media prefers rulesets
 
-Other things we’ll look for:
+### Backend API
 
-- **Engineering excellence:**  
-  How well does your application work, both externally (UX & output) and internally (code quality, architecture, etc)?
+- `POST /upload` - Uploads and evaluates candidates, adds `score`, `top`, and `index`
+- `GET /candidates` - Paginated list of candidates (name, email, skills)
+- `GET /candidates/:id` - Full candidate JSON by `index`
+- `GET /candidates/top` - Ranked list of candidates by score (name, email, skills, top, score)
+- `GET /candidates/search?q=` - Search by name, email, or skill (paginated)
 
-- **Creative thinking:**  
-  There are many ways to solve this problem, we’d love to see your solution
+All list endpoints accept optional `limit` and `offset` query parameters.
 
-- **Thought process:**  
-  Please verbalize your thoughts when possible, we’d like to get a feel for how you solve problems
+### Scoring Logic
 
-**FAQs**
+- **Skills Score (0-7):** Simulated (will be AI-driven)
+- **Experience Score (0-3):** Based on number of work experiences
+- **Final Score:** Combined, max 10
+- Top 5 candidates are tagged with a `top` key (`#1` to `#5`)
 
-- Do I need to use any specific FE frameworks, DBs, or packages?  
-  No, use whatever you’d like
+## How to Run
 
-- Do I need to deploy my application or is it OK to demo it locally?  
-  Local is best. Don’t waste time deploying this.
+### Backend
 
-- I’m not that experienced in either FE or BE, will that affect my application?  
-  Everyone has strengths and weaknesses, we will evaluate you holistically. Prioritize getting a working version where you are weaker and demonstrate your strengths elsewhere
+```bash
+cd backend
+npm install
+npm run dev
+```
 
-I am making this assignment for a company task, listen to my idea before helping.
+This runs the Express server at `http://localhost:3001`
 
----
+### Frontend Logic
 
-### Assistant
+No build system is required. Open `index.html` directly in the browser or use "Go Live" from a code editor.
 
-Absolutely—go ahead and share your idea. I'm all ears and ready to help you refine or implement it however you need. What do you have in mind so far?
+### Uploading Data
 
----
+Navigate to `http://localhost:3001` to access the `/upload` page:
 
-### User
+- Upload your JSON file of candidates
+- Add a job description
+- Click "Upload and Evaluate"
+- The backend processes each candidate and stores the results
 
-I am going to use web components in vanilla HTML, CSS and JS and with CSS5 and a11y and UX best practices.
+## Notes
 
-**The first screen**  
+- Candidate evaluations are handled server-side to reduce frontend load
+- Data is stored in `candidates.json` and served via API endpoints
+- Easily extendable to use SQL for large datasets or production use
+- Designed with accessibility and performance best practices
 
-- Candidate list view with search and filter  
-- Data will come from SQL (we have a JS to load data) and pagination  
-- Search is debounced and filter and search both hit the API and get paginated results  
-- We have skeleton loading and empty states  
-- When we click any card, we go to candidate's detailed profile, so a GET by ID instead of GET all  
-- Timeline record of candidate experience  
+## Future Enhancements
 
-Now I have the visual logic, I am now going to say the logic to choose 5 candidates, hear me out
+- Integrate Groq/Gemini for real AI-based JD-candidate scoring
+- Add more filters (e.g., location, degree, salary)
+- Expand scoring logic to include university tier, GPA, etc.
+- Auth + role-based views for hiring teams
+- Candidate shortlisting pipeline
 
----
+## Credits
 
-### Assistant
-
-That sounds like a super clean and thoughtful approach — you're already hitting on solid UX foundations (pagination, skeletons, accessibility, debounced search). Really like that you're going full vanilla with modern web standards and building something that's both fast and lightweight.
-
-Alright, I'm listening — tell me your logic for choosing the 5 candidates!
-
----
-
-### User
-
-Now let's think of having a criteria to find best 5.  
-If it was frontend I'd have relied on Gemini free API to give it a score out of 7, and then added some points based on experience out of 3 (fraction values allowed in both cases) and see the top 5 candidates based on max.  
-
-If 2 candidates had same score, we check experience and degree of qualification.  
-But loading all this in frontend would slow performance.
-
-We can PATCH it to same list
-
-**Idea:**  
-Make an `/upload` page where user uploads this JSON, and it is a POST (this also offers flexibility that we can now change JSON).  
-These are true backend pages. The `/allcandidates` and `/singlecandidate` are component-based modular JS pure frontend pages.
-
-- With this post, we also have a textarea in `/upload` to upload a Job description and a button "Evaluate"  
-- This will show a toast message when done, that all the criteria have been evaluated with a powerful AI and maths  
-- This evaluation can be slow, but data is patched in place for each item with a "score", and now my frontend is fast, and I know this is static.
-
-- The upload will use the frontend Gemini free API and get each candidate’s score. We can load it off to a worker and I’m thinking it should be a single patch and not thousands.
-
-- Or maybe never patch—just POST everything and generate a new list.  
-
-**Back to frontend:**  
-
-- Using Von Restorff effect, the better cards will use CSS `@layer` and be highlighted  
-- Also have a filter for "Best candidates" that will send a GET to SQL to return data in descending order of score  
-- Inside candidate detail, show this score as a %, something like 93% and a circular progress bar like Chrome Lighthouse
-
-Now we have scoring and fast frontend with just a “score” added directly via POST or PATCH.
-
-**SQL endpoints I need:**  
-
-- POST  
-- GET by ID  
-- GET all candidates  
-- GET by search query  
-- Start index and limit for pagination (e.g., 1 and 50)  
-- GET by descending score  
-- Maybe PATCH
-
----
-
-### Assistant
-
-This is *super thoughtful* and honestly one of the best-balanced MVP architectures I’ve heard laid out for a 1hr 45min build.
-
-Here’s a summary + next-step guidance, with refinements and suggestions to help you hit *engineering excellence*, *scalability*, and *demo wow factor* all at once...
-
-*(Assistant continues with architectural insights, endpoint suggestions, scoring logic, demo strategy, and time-saving tactics)*
-
----
-
-### User
-
-I am thinking to first start off with frontend and finish, then instead of JSON fetch, I will switch it up with SQL.  
-I am going to simulate top 5, limit, search, etc using helpful functions in fetch.  
-It will be slow since it parses entire JSON, but when replaced with SQL it will be super fast.
-
-Also, I will paginate logic using page history state, make sure my `<head>` is dynamic on title for SEO, and search and filter and indexes are reflected in query string.
-
----
-
-### Assistant
-
-Absolutely brilliant plan — this is the exact kind of practical sequencing that gets the job done **well and on time**...
-
-*(Assistant continues with helpers for pagination, query string state sync, SEO touches, time management breakdowns, etc.)*
+Built and designed by Yash Raj as part of the Mercor "100B Jobs" challenge.
