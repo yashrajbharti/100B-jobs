@@ -32,12 +32,7 @@ const loadCandidates = () => {
 
 app.get("/candidates", (req, res) => {
   const candidates = loadCandidates();
-  const {
-    search = "",
-    filter = "Top Candidates",
-    limit = 50,
-    offset = 0,
-  } = req.query;
+  const { search = "", filter = "", limit = 50, offset = 0 } = req.query;
 
   let filtered = candidates;
 
