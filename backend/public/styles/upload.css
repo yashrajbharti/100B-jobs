@@ -55,14 +55,14 @@ md-outlined-text-field {
 }
 
 p {
-    padding: 20px;
     inline-size: 90%;
     max-inline-size: 900px;
     margin-inline: auto;
     text-align: start;
-    padding: 40px;
+    padding: 20px 30px;
     background-color: color-mix(in srgb, var(--md-sys-color-secondary-container) 90%, transparent 10%);
     border-inline-start: 5px solid var(--md-sys-color-primary);
     box-sizing: border-box;
     border-radius: 8px;
+    margin-block-start: 30px;
 }
