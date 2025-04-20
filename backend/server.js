@@ -60,7 +60,8 @@ app.get("/candidates", (req, res) => {
 
   const sliced = filtered
     .slice(+offset, +offset + +limit)
-    .map(({ name, email, skills, top, score }) => ({
+    .map(({ index, name, email, skills, top, score }) => ({
+      index,
       name,
       email,
       skills,
@@ -69,7 +70,7 @@ app.get("/candidates", (req, res) => {
     }));
 
   res.json({
-    total: filtered.length,
+    length: filtered.length,
     data: sliced,
   });
 });
