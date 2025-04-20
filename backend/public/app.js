@@ -13,42 +13,37 @@ const showDialog = (title, message) => {
   dialog.show();
 };
 
-export const getScoreFromAI = async (candidate, jobDescription) => {
+const getScoreFromAI = async (candidate, jobDescription) => {
   const prompt = `
-  You are an expert recruiter. Score this candidate from 0 to 7 based on how well their skills and experience match the following job description.
-  
-  Job Description:
-  ${jobDescription}
-  
-  Candidate:
-  ${JSON.stringify(candidate, null, 2)}
-  
-  Only return the number score (decimal between 0 and 7). No explanation.
-    `.trim();
+You are an expert recruiter. Score this candidate from 0 to 7 based on how well their skills and experience match the following job description.
 
-  const response = await fetch(
-    "https://api.groq.com/openai/v1/chat/completions",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer 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`,
-      },
-      body: JSON.stringify({
-        model: "llama3-8b-8192",
-        messages: [
-          { role: "system", content: "You are a scoring assistant." },
-          { role: "user", content: prompt },
-        ],
-        temperature: 0.2,
-      }),
-    }
-  );
+Job Description:
+${jobDescription}
 
+Candidate:
+${JSON.stringify(candidate, null, 2)}
+
+Only return the number score (decimal between 0 and 7). No explanation.
+  `.trim();
+
+  const response = await fetch("http://localhost:11434/api/chat", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "llama3.2",
+      prompt,
+      stream: false,
+    }),
+  });
+
+  console.log(prompt);
   const result = await response.json();
-  const raw = result.choices?.[0]?.message?.content || "";
+  const raw = result.response || "";
 
   const score = parseFloat(raw.match(/[\d.]+/g)?.[0]);
+  console.warn(result);
   return isNaN(score) ? Math.random() * 7 : Math.min(score, 7);
 };
 

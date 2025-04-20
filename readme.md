@@ -13,7 +13,7 @@ This app is designed to simulate a real-world hiring decision system after a $10
 - **Frontend:** HTML, CSS5, and JavaScript using Web Components
 - **Backend:** Node.js with Express
 - **Persistence:** Local JSON file for structured data storage (can scale to SQL)
-- **AI Scoring:** Planned integration with Groq or Gemini
+- **AI Scoring:** Planned integration with llama3
 
 ## Features
 
@@ -79,7 +79,7 @@ Navigate to `http://localhost:3001` to access the `/upload` page:
 
 ## Future Enhancements
 
-- Integrate Groq/Gemini for real AI-based JD-candidate scoring
+- Integrate Ollama locally for real AI-based JD-candidate scoring
 - Add more filters (e.g., location, degree, salary)
 - Expand scoring logic to include university tier, GPA, etc.
 - Auth + role-based views for hiring teams
