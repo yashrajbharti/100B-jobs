@@ -32,13 +32,46 @@ const loadCandidates = () => {
 
 app.get("/candidates", (req, res) => {
   const candidates = loadCandidates();
-  const { limit = 50, offset = 0 } = req.query;
+  const {
+    search = "",
+    filter = "Top Candidates",
+    limit = 50,
+    offset = 0,
+  } = req.query;
 
-  const sliced = candidates
+  let filtered = candidates;
+
+  if (search.trim()) {
+    const query = search.toLowerCase();
+    filtered = filtered.filter((c) => {
+      return (
+        c.name?.toLowerCase().includes(query) ||
+        c.email?.toLowerCase().includes(query) ||
+        (c.skills || []).some((skill) => skill.toLowerCase().includes(query))
+      );
+    });
+  }
+
+  if (filter === "Top Candidates") {
+    filtered = filtered
+      .filter((c) => c.score !== undefined)
+      .sort((a, b) => b.score - a.score);
+  }
+
+  const sliced = filtered
     .slice(+offset, +offset + +limit)
-    .map(({ name, email, skills }) => ({ name, email, skills }));
+    .map(({ name, email, skills, top, score }) => ({
+      name,
+      email,
+      skills,
+      top,
+      score,
+    }));
 
-  res.json({ total: candidates.length, data: sliced });
+  res.json({
+    total: filtered.length,
+    data: sliced,
+  });
 });
 
 app.get("/candidates/:id", (req, res) => {
@@ -50,47 +83,6 @@ app.get("/candidates/:id", (req, res) => {
     return res.status(404).json({ message: "Candidate not found" });
 
   res.json(candidate);
-});
-
-app.get("/candidates/top", (req, res) => {
-  const candidates = loadCandidates();
-  const { limit = 50, offset = 0 } = req.query;
-
-  const sorted = candidates
-    .filter((c) => c.score !== undefined)
-    .sort((a, b) => b.score - a.score);
-
-  const sliced = sorted
-    .slice(+offset, +offset + +limit)
-    .map(({ name, email, skills, top, score }) => ({
-      name,
-      email,
-      skills,
-      top,
-      score,
-    }));
-
-  res.json({ total: candidates.length, data: sliced });
-});
-
-app.get("/candidates/search", (req, res) => {
-  const candidates = loadCandidates();
-  const { q = "", limit = 50, offset = 0 } = req.query;
-  const query = q.toLowerCase();
-
-  const filtered = candidates.filter((c) => {
-    return (
-      c.name?.toLowerCase().includes(query) ||
-      c.email?.toLowerCase().includes(query) ||
-      (c.skills || []).some((skill) => skill.toLowerCase().includes(query))
-    );
-  });
-
-  const sliced = filtered
-    .slice(+offset, +offset + +limit)
-    .map(({ name, email, skills }) => ({ name, email, skills }));
-
-  res.json({ total: candidates.length, data: sliced });
 });
 
 app.get("/", (req, res) => {
