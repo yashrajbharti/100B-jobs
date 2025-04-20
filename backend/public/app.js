@@ -13,8 +13,47 @@ const showDialog = (title, message) => {
   dialog.show();
 };
 
-const mockScore = async (candidate, jd) => {
-  const skillsScore = Math.random() * 7;
+export const getScoreFromAI = async (candidate, jobDescription) => {
+  const prompt = `
+  You are an expert recruiter. Score this candidate from 0 to 7 based on how well their skills and experience match the following job description.
+  
+  Job Description:
+  ${jobDescription}
+  
+  Candidate:
+  ${JSON.stringify(candidate, null, 2)}
+  
+  Only return the number score (decimal between 0 and 7). No explanation.
+    `.trim();
+
+  const response = await fetch(
+    "https://api.groq.com/openai/v1/chat/completions",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer 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`,
+      },
+      body: JSON.stringify({
+        model: "llama3-8b-8192",
+        messages: [
+          { role: "system", content: "You are a scoring assistant." },
+          { role: "user", content: prompt },
+        ],
+        temperature: 0.2,
+      }),
+    }
+  );
+
+  const result = await response.json();
+  const raw = result.choices?.[0]?.message?.content || "";
+
+  const score = parseFloat(raw.match(/[\d.]+/g)?.[0]);
+  return isNaN(score) ? Math.random() * 7 : Math.min(score, 7);
+};
+
+const getScore = async (candidate, jd) => {
+  const skillsScore = await getScoreFromAI(candidate, jd);
   const experienceCount = (candidate.work_experiences || []).length;
   const xpScore = Math.min(experienceCount / 10, 1) * 3;
 
@@ -24,7 +63,7 @@ const mockScore = async (candidate, jd) => {
 const scoreCandidates = async (candidates, jobDescription) => {
   const scored = await Promise.all(
     candidates.map(async (candidate, index) => {
-      const score = await mockScore(candidate, jobDescription);
+      const score = await getScore(candidate, jobDescription);
       return { ...candidate, score, index };
     })
   );
