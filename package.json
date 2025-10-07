@@ -1,0 +1,30 @@
+{
+    "name": "100b-jobs",
+    "version": "1.0.0",
+    "description": "Full-stack hiring platform to evaluate and hire top candidates",
+    "type": "module",
+    "scripts": {
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "test:coverage": "jest --coverage",
+        "test:backend": "cd backend && npm test",
+        "test:all": "npm test && npm run test:backend",
+        "lint": "eslint .",
+        "format": "prettier --write \"**/*.{js,mjs,json,md,css,html}\""
+    },
+    "keywords": [
+        "hiring",
+        "recruitment",
+        "candidate-evaluation",
+        "web-components"
+    ],
+    "author": "Yash Raj",
+    "license": "ISC",
+    "devDependencies": {
+        "@jest/globals": "^29.7.0",
+        "eslint": "^8.57.0",
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "prettier": "^3.2.5"
+    }
+}
