@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+backend/node_modules/
+
+# Build outputs
+dist/
+build/
+coverage/
+backend/coverage/
+
+# Data files
+data/
+backend/candidates.json
+
+# External libraries
+**/vendor/**
+**/third-party/**
+
+# Config files
+*.config.js
+jest.setup.js
